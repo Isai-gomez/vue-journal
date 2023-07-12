@@ -18,6 +18,9 @@ export default {
         import(
           /* webpackChunkName: "no-entry-view" */ '../views/EntryView.vue'
         ),
+      props: (route) => {
+        return { id: route.params.id }
+      },
     },
   ],
 }

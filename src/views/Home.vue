@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <h1>Hola mundo</h1>
     <button @click="getToDayBook" class="btn btn-primary">primary</button>
     <button @click="getToDayBook" class="btn btn-secondary">secondary</button>
     <button @click="getToDayBook" class="btn btn-success">success</button>
