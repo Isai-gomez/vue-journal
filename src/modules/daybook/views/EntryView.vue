@@ -103,9 +103,15 @@ export default {
         swalAletSave('Actualización con exito')
       } else {
         //Created new entry
-        const id = await this.createEntry(this.entry)
-        this.$router.push({ name: 'entry', params: { id } })
-        swalAletSave('Se añadio con exito')
+        const {text, picture}=this.entry;
+        if(!text & !picture){
+          swalAletSave('No se aguardo, tienes compos vacios')
+        }else{
+
+          const id = await this.createEntry(this.entry)
+          this.$router.push({ name: 'entry', params: { id } })
+          swalAletSave('Se añadio con exito')
+        }
       }
       this.file = null
     },
@@ -136,7 +142,7 @@ export default {
       const fr = new FileReader()
       fr.onload = () => (this.localImage = fr.result)
       fr.readAsDataURL(file)
-      this.getEntryById()
+      
     },
     onSeletedImage() {
       this.$refs.imageSelector.click()

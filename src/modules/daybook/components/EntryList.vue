@@ -18,6 +18,7 @@
       </button>
     </div>
     <div class="entry-scrollarea">
+      {{ active }}
       <Entry
         v-for="entry in entriesByTerm"
         :key="entry.id"
@@ -28,25 +29,26 @@
 </template>
 
 <script>
-import { defineAsyncComponent } from 'vue'
-import { mapGetters } from 'vuex'
+import { defineAsyncComponent } from "vue";
+import { mapGetters } from "vuex";
 export default {
-  name: 'entryList',
+  name: "entryList",
   data() {
     return {
-      term: '',
-    }
+      term: "",
+     
+    };
   },
   components: {
-    Entry: defineAsyncComponent(() => import('./Entry.vue')),
+    Entry: defineAsyncComponent(() => import("./Entry.vue")),
   },
   computed: {
-    ...mapGetters('journal', ['getEntriesByTerm']),
+    ...mapGetters("journal", ["getEntriesByTerm"]),
     entriesByTerm() {
-      return this.getEntriesByTerm(this.term)
+      return this.getEntriesByTerm(this.term);
     },
   },
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -58,4 +60,5 @@ export default {
   height: calc(100vh - 120px);
   overflow: scroll;
 }
+
 </style>

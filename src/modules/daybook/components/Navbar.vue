@@ -10,7 +10,7 @@
       Daybook
     </a>
     <div class="d-flex">
-      <button class="btn btn-outline-info mx-2">
+      <button class="btn btn-outline-info mx-2"  @click="this.$router.push({name:'Home'})">
         <i class="fa-solid fa-arrow-right-from-bracket"></i>
       </button>
     </div>

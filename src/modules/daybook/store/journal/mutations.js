@@ -8,6 +8,10 @@ export const updateEntry = (state, entries) => {
   state.entry[idx] = entries
 }
 export const addEntry = (state, entry) => {
+  
+  const {text, picture}=entry;
+  if(!text & !picture) return 
+  
   state.entry = [entry, ...state.entry]
 }
 export const deleteEntry = (state, id) => {
