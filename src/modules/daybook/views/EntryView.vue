@@ -142,7 +142,6 @@ export default {
       const fr = new FileReader()
       fr.onload = () => (this.localImage = fr.result)
       fr.readAsDataURL(file)
-      
     },
     onSeletedImage() {
       this.$refs.imageSelector.click()

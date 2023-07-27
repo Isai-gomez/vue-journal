@@ -58,14 +58,12 @@ export default {
   methods: {
     mouseOut: function () {
       this.active = false;
-      console.log('valor de active');
-      console.log(this.active);
     },
   },
   computed: {
     cutEntryText() {
-      return this.entry.text.length > 200
-        ? this.entry.text.slice(0, 200) + "..."
+      return this.entry.text.length > 30
+        ? this.entry.text.slice(0, 30) + "..."
         : this.entry.text;
     },
     day() {
@@ -81,12 +79,6 @@ export default {
       return `${date.getFullYear()}, ${days[date.getDay()]}`;
     },
   },
-  created() {
-    // console.log(
-    //   this.$router.push({ name: 'entry', params: { id: this.entry.id } }),
-    //   'Caudo creo el componente',
-    // )
-  },
 };
 </script>
 
@@ -95,6 +87,7 @@ export default {
   height: 5rem;
   border-bottom: 1px solid #2c3e50;
   transition: 0.2s all ease-in;
+  height: auto;
   &:hover {
     background-color: lighten($color: rgba(46, 46, 46, 0.315), $amount: 45);
     transition: 0.5s all ease-in;
