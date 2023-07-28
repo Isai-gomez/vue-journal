@@ -32,19 +32,19 @@
     <div class="d-flex flex-column px-3 h-70">
       <textarea placeholder="Qué sucedio hoy?" v-model="entry.text"></textarea>
     </div>
-    <Fb icon="fa-save" @on:click="seveEntry" />
-    <img
-      v-if="(entry.picture && !localImage)"
+    <Fb icon="fa-save" @on:click="seveEntry" />      
+      <img
+      v-if="entry.picture"
       :src="entry.picture"
-      alt="entry-fotho"
+      :alt="entry.picture"
       class="img-thumbnail"
-    />
-    <img
-      v-if="localImage"
+      />
+      <img
+      v-else-if="localImage"
       :src="localImage"
-      alt="entry-fotho"
+      :alt="localImage"
       class="img-thumbnail"
-    />
+      />
   </template>
 </template>
 
@@ -86,12 +86,16 @@ export default {
         entry = {
           text: '',
           date: new Date().getTime(),
+          picture:this.localImage
+
         }
       } else {
         entry = this.getEntriesById(this.id)
         if (!entry) return this.$router.push({ name: 'no-entry' })
       }
       this.entry = entry
+      console.log('entry');
+      console.log(entry);
     },
     async seveEntry() {
       const picture = await uploadImage(this.file)
@@ -99,7 +103,6 @@ export default {
       if (this.entry.id) {
         //update entry
         await this.updateEntry(this.entry)
-
         swalAletSave('Actualización con exito')
       } else {
         //Created new entry
@@ -107,13 +110,13 @@ export default {
         if(!text & !picture){
           swalAletSave('No se aguardo, tienes compos vacios')
         }else{
-
           const id = await this.createEntry(this.entry)
           this.$router.push({ name: 'entry', params: { id } })
           swalAletSave('Se añadio con exito')
         }
       }
       this.file = null
+      this.localImage=null
     },
     async UIdeleteEntry() {
       const { isConfirmed } = await Swal.fire({
