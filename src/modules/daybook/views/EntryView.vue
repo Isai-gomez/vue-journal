@@ -86,7 +86,7 @@ export default {
         entry = {
           text: '',
           date: new Date().getTime(),
-          picture:this.localImage
+          picture:null
 
         }
       } else {
@@ -94,8 +94,6 @@ export default {
         if (!entry) return this.$router.push({ name: 'no-entry' })
       }
       this.entry = entry
-      console.log('entry');
-      console.log(entry);
     },
     async seveEntry() {
       const picture = await uploadImage(this.file)
@@ -148,8 +146,8 @@ export default {
     },
     onSeletedImage() {
       this.$refs.imageSelector.click()
-      this.localImage = null
-      this.file = null
+      // this.localImage = null
+      // this.file = null
     },
   },
   computed: {

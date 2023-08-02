@@ -1,6 +1,7 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
 import Home from '../views/Home.vue'
-import dayBook from '../modules/daybook/routers'
+import dayBookRouter from '../modules/daybook/routers'
+import AuthRouter from '../modules/auth/routers'
 
 const routes = [
   {
@@ -16,10 +17,13 @@ const routes = [
     // which is lazy-loaded when the route is visited.
     component: () =>
       import(/* webpackChunkName: "about" */ '../views/About.vue'),
+  },{
+    path:'/auth',
+    ...AuthRouter
   },
   {
     path: '/daybook',
-    ...dayBook,
+    ...dayBookRouter,
   },
 ]
 
