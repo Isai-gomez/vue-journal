@@ -12,16 +12,14 @@
     <section class="wrapper-input">
       <input
         type="text"
-        id="firstname"
-        name="firstname"
-        placeholder="First name"
+        name="email"
+        placeholder="email"
         required
       />
 
       <input
         type="password"
-        id="lastname"
-        name="lastname"
+        name="password"
         placeholder="Contraseña"
         required
       />

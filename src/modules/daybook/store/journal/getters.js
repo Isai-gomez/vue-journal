@@ -1,6 +1,3 @@
-// export const myGetters =(state) => {
-//     return state
-// }
 export const getEntriesByTerm = (state) => (term = '') => {
   if (term.length === 0) return state.entry
   return state.entry.filter((entry) =>

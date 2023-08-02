@@ -5,43 +5,61 @@
   <aside>
     <p>El diario web que permite documentar las cosas bonitas de tu día</p>
   </aside>
-  <form>
+  <form @submit.prevent="onSubmit">
     <!-- Grid -->
 
     <!-- Markup example 1: input is inside label -->
     <section class="wrapper-input">
       <input
+      v-model="userForm.name"
         type="text"
-        id="firstname"
-        name="firstname"
+        name="name"
         placeholder="Usuario"
         required
       />
       <input
+      v-model="userForm.email"
         type="email"
-        id="lastname"
-        name="lastname"
+        name="email"
         placeholder="Correo"
         required
       />
       <input
+      v-model="userForm.password"
         type="password"
-        id="lastname"
-        name="lastname"
+        name="password"
         placeholder="Contraseña"
         required
       />
     </section>
     <div>
-      <router-link :to="{name:'login'}">Ir a login</router-link>
+      <router-link :to="{ name: 'login' }">Ir a login</router-link>
     </div>
     <footer>
-      <button type="submit">Ingresar</button>
+      <button type="submit">Crear</button>
     </footer>
   </form>
 </template>
 <script>
-export default {};
+import { ref } from "vue";
+import {userAuth} from '../composables/userAuth'
+export default {
+  setup() {
+    const userForm = ref({
+      name: "",
+      email: "",
+      password: "",
+    });
+    const {createUser} = userAuth()
+    return {
+      userForm,
+      onSubmit: async () => {
+        const {ok, message}=createUser(userForm.value);
+        console.log({ok, message});
+      },
+    };
+  },
+};
 </script>
 <style scoped>
 .wrapper-input {
@@ -97,10 +115,10 @@ section {
   overflow: hidden;
   background-color: #15293d;
 }
-div{
-    margin-left: 2rem;
+div {
+  margin-left: 2rem;
 }
-a{
+a {
   color: white;
 }
 </style>
