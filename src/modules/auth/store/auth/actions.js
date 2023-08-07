@@ -8,18 +8,62 @@ export const createUser = async ({ commit }, user) => {
       returnSecureToken: true,
     });
     const { idToken, refreshToken } = data;
-    const resp = await authApi.post(":update", { diplayName: name, idToken });
-    console.log(resp);
+    const resp = await authApi.post(":update", { displayName: name, idToken });
+    console.log(resp);  
     delete user.password;
     commit("loginUser", { user, idToken, refreshToken });
     return {
       ok: true,
     };
   } catch (error) {
-    console.log(error.response.data.error.message);
     return {
       ok: false,
-      mensaje: error.response.data.error.message,
+      message: error.response.data.error.message,
     };
+  }
+};
+
+export const singInUser = async ({ commit }, user) => {
+  try {
+    const { email, password } = user;
+    const { data } = await authApi.post(":signInWithPassword", {
+      email,
+      password,
+      returnSecureToken: true,
+    });
+    const { displayName, idToken, refreshToken } = data;
+    user.name = displayName;
+    commit("loginUser", { user, idToken, refreshToken });
+    return {
+      ok: true,
+    };
+  } catch (error) {
+    return {
+      ok: false,
+      message: error.response.data.error.message,
+    };
+  }
+};
+export const chechAUtentication = async ({ commit }) => {
+  const idToken = localStorage.getItem("idToken");
+  const refreshToken = localStorage.getItem("refreshToken");
+  if (!idToken) {
+    commit("logout");
+    return { ok: false, message: "No hay token" };
+  }
+  try {
+    const { data } = await authApi.post(":lookup", {
+      idToken,
+    });
+    const { displayName, email } = data.users[0];
+    const user = {
+      name: displayName,
+      email,
+    };
+    commit("loginUser", { user, idToken, refreshToken });
+    return { ok: true };
+  } catch (error) {
+    commit("logout");
+    return { ok: false, message: error.response.data.error.message };
   }
 };

@@ -1,6 +1,6 @@
 export default ()=>({
     auth:{
-        status:'authenticating',
+        status:'',
         user:null,
         idToken:null,
         refreshToken:null

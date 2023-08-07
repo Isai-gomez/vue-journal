@@ -5,27 +5,23 @@
   <aside>
     <p>El diario web que permite documentar las cosas bonitas de tu día</p>
   </aside>
-  <form>
+  <form @submit.prevent="onSubmitLogin">
     <!-- Grid -->
 
     <!-- Markup example 1: input is inside label -->
     <section class="wrapper-input">
-      <input
-        type="text"
-        name="email"
-        placeholder="email"
-        required
-      />
+      <input type="email" name="email" placeholder="email" required v-model="userForm.email" />
 
       <input
         type="password"
         name="password"
         placeholder="Contraseña"
         required
+        v-model="userForm.password"
       />
     </section>
     <div>
-      <router-link :to="{name:'register'}">Crear una cuenta</router-link>
+      <router-link :to="{ name: 'register' }">Crear una cuenta</router-link>
     </div>
     <footer>
       <button type="submit">Ingresar</button>
@@ -33,7 +29,31 @@
   </form>
 </template>
 <script>
-export default {};
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import {userAuth} from '../composables/userAuth'
+import Swal from "sweetalert2";
+
+export default {
+  setup() {
+    const router = useRouter();
+    const userForm = ref({
+      email: "",
+      password: "",
+    });
+    const { loginUser } = userAuth();
+    return {
+      userForm,
+      onSubmitLogin: async () => {
+        const { ok, message } = await loginUser(userForm.value);
+        if (!ok) {
+          return Swal.fire("Error", message, "error");
+        }
+        router.push({ name: "no-entry" });
+      },
+    };
+  },
+};
 </script>
 <style scoped>
 .wrapper-input {
@@ -89,10 +109,10 @@ section {
   overflow: hidden;
   background-color: #15293d;
 }
-div{
-    margin-left: 2rem;
+div {
+  margin-left: 2rem;
 }
-a{
+a {
   color: white;
 }
 </style>

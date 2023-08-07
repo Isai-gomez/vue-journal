@@ -11,21 +11,21 @@
     <!-- Markup example 1: input is inside label -->
     <section class="wrapper-input">
       <input
-      v-model="userForm.name"
+        v-model="userForm.name"
         type="text"
         name="name"
         placeholder="Usuario"
         required
       />
       <input
-      v-model="userForm.email"
+        v-model="userForm.email"
         type="email"
         name="email"
         placeholder="Correo"
         required
       />
       <input
-      v-model="userForm.password"
+        v-model="userForm.password"
         type="password"
         name="password"
         placeholder="Contraseña"
@@ -42,20 +42,26 @@
 </template>
 <script>
 import { ref } from "vue";
-import {userAuth} from '../composables/userAuth'
+import { useRouter } from "vue-router";
+import { userAuth } from "../composables/userAuth";
+import Swal from "sweetalert2";
 export default {
   setup() {
+    const router = useRouter();
     const userForm = ref({
       name: "",
       email: "",
       password: "",
     });
-    const {createUser} = userAuth()
+    const { createUser } = userAuth();
     return {
       userForm,
       onSubmit: async () => {
-        const {ok, message}=createUser(userForm.value);
-        console.log({ok, message});
+        const { ok, message } = await createUser(userForm.value);
+        if (!ok) {
+          return Swal.fire("Error", message, "error");
+        }
+        router.push({ name: "no-entry" });
       },
     };
   },
